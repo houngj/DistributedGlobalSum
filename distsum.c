@@ -29,53 +29,57 @@ void sendValueFromCore(int n, char* my_x){
 }
 
 void main(int mainargc, char **mainargv){
-  NodeNum = atoi(mainargv[1]);
-  int depthlimit = (int) ceil(log2(NodeNum));
-  int core_difference = 1;
-  int divisor = 2;
-  int b = 0;
-  int i = 0;
-  int z = 0;
-  int tail = 0;
-  printf(" ");
-  for(i = 0; i < NodeNum; i++){
-    printf("%5d", i);
+  if(mainargc != 2){
+    printf("usage: ./distsum Number\n");
   }
-  printf("\n");
-  
-  while(depthlimit != 0){
-    printf("%d   ", z++);
+  else{
+    NodeNum = atoi(mainargv[1]);
+    int depthlimit = (int) ceil(log2(NodeNum));
+    int core_difference = 1;
+    int divisor = 2;
+    int b = 0;
+    int i = 0;
+    int z = 0;
+    int tail = 0;
+    printf(" ");
     for(i = 0; i < NodeNum; i++){
-      if(i%divisor == 0){
-	if(i+core_difference < NodeNum){
-	  printf("R%-4d", i+core_difference);
+      printf("%5d", i);
+    }
+    printf("\n");
+    
+    while(depthlimit != 0){
+      printf("%d   ", z++);
+      for(i = 0; i < NodeNum; i++){
+	if(i%divisor == 0){
+	  if(i+core_difference < NodeNum){
+	    printf("R%-4d", i+core_difference);
+	    if(core_difference > 1){
+	      for(b = 1; b < core_difference; b++){
+		printf("     ");
+	      }
+	    }
+	  }
+	  else{
+	    printf("    ");
+	  }
+	}
+	else if(i%divisor == core_difference){
+	  
+	  printf("S%-4d", i-core_difference);
 	  if(core_difference > 1){
 	    for(b = 1; b < core_difference; b++){
 	      printf("     ");
 	    }
 	  }
 	}
-	else{
-	  printf("    ");
-	}
-      }
-      else if(i%divisor == core_difference){
 	
-	printf("S%-4d", i-core_difference);
-	if(core_difference > 1){
-	  for(b = 1; b < core_difference; b++){
-	    printf("     ");
-	  }
-	}
       }
-      
+      printf("\n");
+      depthlimit--;
+      divisor *= 2;
+      core_difference *= 2;
     }
-    printf("\n");
-    depthlimit--;
-    divisor *= 2;
-    core_difference *= 2;
+    
   }
-  
-
-  
+    
 }
